@@ -26,14 +26,13 @@ class SubjectResource extends Resource
     protected static ?string $recordTitleAttribute = 'Subject';
     protected static string | UnitEnum | null $navigationGroup = 'Master Data';
 
-
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('arabic-name')
+                TextInput::make('arabic_name')
                     ->required(),
             ]);
     }
@@ -43,9 +42,10 @@ class SubjectResource extends Resource
         return $table
             ->recordTitleAttribute('Subject')
             ->columns([
+                TextColumn::make('no'),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('arabic-name')
+                TextColumn::make('arabic_name')
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

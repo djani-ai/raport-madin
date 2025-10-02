@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->enum('level', ["Awwaliyah", "Wustha", "Ulya"]);
-            $table->unsignedBigInteger('hr_teacher')->nullable();
-            $table->foreign('hr_teacher')->references('id')->on('Users');
+            $table->unsignedBigInteger('hr_teacher_id')->nullable();
+            $table->foreign('hr_teacher_id')->references('id')->on('Users');
             $table->unsignedBigInteger('school_year_id');
-            $table->foreign('school_year_id')->references('id')->on('school_year');
+            $table->foreign('school_year_id')->references('id')->on('school_years');
             $table->timestamps();
         });
 

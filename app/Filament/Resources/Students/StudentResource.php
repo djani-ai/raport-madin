@@ -37,7 +37,8 @@ class StudentResource extends Resource
         return $schema
             ->components([
                 TextInput::make('student_number')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 TextInput::make('national_id'),
                 TextInput::make('name')
                     ->required(),

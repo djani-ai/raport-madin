@@ -4,11 +4,13 @@ namespace App\Filament\Resources\Grades;
 
 use App\Filament\Resources\Grades\Pages\ManageGrades;
 use App\Models\Grade;
+use App\Models\SchoolYear;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
@@ -37,11 +39,13 @@ class GradeResource extends Resource
                 Select::make('level')
                     ->options(['Awwaliyah' => 'Awwaliyah', 'Wustha' => 'Wustha', 'Ulya' => 'Ulya'])
                     ->required(),
-                TextInput::make('hr_teacher')
-                    ->numeric(),
-                TextInput::make('school_year_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('hr_teacher_id')
+                    ->relationship('hr_teacher', 'name'),
+                Hidden::make('school_year_id')
+                    ->default(function () {
+                        return SchoolYear::where('is_active', true)->first()->id;
+                    })
+                    ->required(),
             ]);
     }
 
@@ -53,12 +57,10 @@ class GradeResource extends Resource
                 TextColumn::make('name')
                     ->searchable(),
                 TextColumn::make('level'),
-                TextColumn::make('hr_teacher')
-                    ->numeric()
+                TextColumn::make('hr_teacher.name')
                     ->sortable(),
-                TextColumn::make('school_year_id')
-                    ->numeric()
-                    ->sortable(),
+                // TextColumn::make('school_year.name')
+                //     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
