@@ -20,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\NavigationGroup;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -33,6 +34,20 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Input Reports')
+                    ->icon('heroicon-o-document-text'),
+                NavigationGroup::make()
+                    ->label('Master Data')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsed(true),
+                NavigationGroup::make()
+                    ->label('Settings')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsed(),
+            ])
+            ->sidebarFullyCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([

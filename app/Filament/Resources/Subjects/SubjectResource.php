@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Users;
+namespace App\Filament\Resources\Subjects;
 
-use App\Filament\Resources\Users\Pages\ManageUsers;
-use App\Models\User;
+use App\Filament\Resources\Subjects\Pages\ManageSubjects;
+use App\Models\Subject;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -18,14 +17,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class UserResource extends Resource
+class SubjectResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Subject::class;
 
     // protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'User';
-    protected static string | UnitEnum | null $navigationGroup = 'Settings';
+    protected static ?string $recordTitleAttribute = 'Subject';
+    protected static string | UnitEnum | null $navigationGroup = 'Master Data';
 
 
     public static function form(Schema $schema): Schema
@@ -34,34 +33,20 @@ class UserResource extends Resource
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('username'),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
+                TextInput::make('arabic-name')
                     ->required(),
-                // DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->revealable(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('User')
+            ->recordTitleAttribute('Subject')
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('username')
+                TextColumn::make('arabic-name')
                     ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -88,7 +73,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageUsers::route('/'),
+            'index' => ManageSubjects::route('/'),
         ];
     }
 }

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\Users;
+namespace App\Filament\Resources\Presences;
 
-use App\Filament\Resources\Users\Pages\ManageUsers;
-use App\Models\User;
+use App\Filament\Resources\Presences\Pages\ManagePresences;
+use App\Models\Presence;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -18,49 +17,50 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class UserResource extends Resource
+class PresenceResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Presence::class;
 
     // protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'User';
-    protected static string | UnitEnum | null $navigationGroup = 'Settings';
-
+    protected static string | UnitEnum | null $navigationGroup = 'Input Reports';
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('username'),
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
-                // DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
+                TextInput::make('school_year_id')
                     ->required()
-                    ->revealable(),
+                    ->numeric(),
+                TextInput::make('students_id')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('sick')
+                    ->numeric(),
+                TextInput::make('permission')
+                    ->numeric(),
+                TextInput::make('absent')
+                    ->numeric(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('User')
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('username')
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->label('Email address')
-                    ->searchable(),
-                TextColumn::make('email_verified_at')
-                    ->dateTime()
+                TextColumn::make('school_year_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('students_id')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('sick')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('permission')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('absent')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -88,7 +88,7 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageUsers::route('/'),
+            'index' => ManagePresences::route('/'),
         ];
     }
 }
