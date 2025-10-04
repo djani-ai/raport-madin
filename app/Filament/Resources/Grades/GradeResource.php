@@ -18,15 +18,16 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use PhpParser\Node\Stmt\Label;
 use UnitEnum;
 
 class GradeResource extends Resource
 {
     protected static ?string $model = Grade::class;
-
-    // protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'Grade';
+    protected static ?string $recordTitleAttribute = 'Kelas';
+    protected static ?string $label = 'Kelas';
+    protected static ?string $pluralLabel = 'Kelas';
+    protected static ?int $navigationSort = 2;
     protected static string | UnitEnum | null $navigationGroup = 'Master Data';
 
 
@@ -55,12 +56,19 @@ class GradeResource extends Resource
             ->recordTitleAttribute('Grade')
             ->columns([
                 TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('level'),
+                    ->searchable()
+                    ->label('Nama Kelas'),
+                TextColumn::make('level')
+                    ->label('Tingkatan'),
                 TextColumn::make('hr_teacher.name')
+                    ->label('Wali Kelas')
                     ->sortable(),
-                // TextColumn::make('school_year.name')
-                //     ->sortable(),
+                TextColumn::make('school_year.name')
+                    ->label('Tahun Ajaran')
+                    ->sortable(),
+                TextColumn::make('school_year.semester')
+                    ->label('Semester')
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -24,6 +24,8 @@ class ManageSubjects extends ManageRecords
             CreateAction::make(),
             ExcelImportAction::make()
                 ->color("primary")
+                ->modalHeading('Import Mata Pelajaran')
+                ->modalDescription('Import data mata pelajaran dari file Excel')
                 ->slideOver()
                 ->use(SubjectImport::class)
                 ->validateUsing([

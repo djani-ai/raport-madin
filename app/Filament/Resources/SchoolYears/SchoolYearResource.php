@@ -16,6 +16,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 
 class SchoolYearResource extends Resource
 {
@@ -58,17 +59,31 @@ class SchoolYearResource extends Resource
                 TextColumn::make('name')
                     ->label('Tahun Ajaran')
                     ->searchable(),
-
                 TextColumn::make('semester')
                     ->label('Semester'),
-
                 IconColumn::make('is_active')
                     ->label('Aktif')
                     ->boolean(),
+
+                // SelectColumn::make('is_active')
+                //     ->label('Set Tahun Ajaran Aktif')
+                //     ->optionsRelationship(fn(SchoolYear $record) => $record->update(['is_active' => true]))
+                //     ->after(function (SchoolYear $record) {
+                //         SchoolYear::where('id', '!=', $record->id)->update(['is_active' => false]);
+                //     })
             ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
+                Action::make('setAsActive')
+                    ->requiresConfirmation()
+                    ->action(fn(SchoolYear $record) => $record->update(['is_active' => true]))
+                    ->after(function (SchoolYear $record) {
+                        SchoolYear::where('id', '!=', $record->id)->update(['is_active' => false]);
+                    })
+                    ->label('Set Aktif')
+                    ->icon('heroicon-o-check-circle')
+                    ->color('success'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
