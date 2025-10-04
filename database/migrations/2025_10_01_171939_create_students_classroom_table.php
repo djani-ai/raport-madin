@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
 
             // Menggunakan sintaks yang lebih modern dan ringkas untuk foreign key
-            $table->foreignId('school_year_id')->constrained('school_year');
+            $table->foreignId('school_years_id')->constrained('school_years');
             $table->foreignId('classrooms_id')->constrained('classrooms');
             $table->foreignId('students_id')->constrained('Students');
 
             // ✅ INI PERBAIKANNYA: Memberi nama spesifik yang lebih pendek untuk unique index
             $table->unique(
-                ['school_year_id', 'classrooms_id', 'students_id'],
+                ['school_years_id', 'classrooms_id', 'students_id'],
                 'student_classroom_year_unique' // Nama custom yang pendek
             );
 

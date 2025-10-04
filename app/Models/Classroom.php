@@ -19,6 +19,10 @@ class Classroom extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+    public function StudentClassroom()
+    {
+        return $this->belongsToMany(StudentClassroom::class);
+    }
 
     public static function booted()
     {

@@ -3,9 +3,10 @@
 namespace App\Filament\Resources\Classrooms;
 
 use App\Filament\Resources\Classrooms\Pages\ManageClassrooms;
+use App\Filament\Resources\Classrooms\Pages\Rombel;
 use App\Models\Classroom;
 use App\Models\SchoolYear;
-use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -15,7 +16,6 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use UnitEnum;
@@ -86,6 +86,10 @@ class ClassroomResource extends Resource
                 //
             ])
             ->recordActions([
+                Action::make('rombel')
+                    ->label('Rombel')
+                    ->url(fn(Classroom $record): string => Rombel::getUrl(['record' => $record], 'rombel'))
+                    ->icon('heroicon-o-users'),
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -100,6 +104,8 @@ class ClassroomResource extends Resource
     {
         return [
             'index' => ManageClassrooms::route('/'),
+            'rombel' => Rombel::route('/{record}/rombel'),
+            'edit' => Pages\EditClassroom::route('/{record}/edit'),
         ];
     }
 }
