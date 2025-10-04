@@ -15,15 +15,19 @@ return new class extends Migration
 
         Schema::create('schedule_of_subjects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_year_id');
-            $table->foreign('school_year_id')->references('id')->on('school_year');
-            $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('Class');
-            $table->unsignedBigInteger('subject_id');
-            $table->foreign('subject_id')->references('id')->on('Subject');
-            $table->unsignedBigInteger('teacher_id');
-            $table->foreign('teacher_id')->references('id')->on('Users');
-            $table->unique(['class_id', 'subject_id', 'school_year_id']);
+
+            // Menggunakan sintaks yang lebih modern dan ringkas
+            $table->foreignId('school_year_id')->constrained('school_year');
+            $table->foreignId('classroom_id')->constrained('classroom');
+            $table->foreignId('subject_id')->constrained('Subject'); // Pastikan nama tabel 'Subject' sudah benar
+            $table->foreignId('teacher_id')->constrained('Users');   // Pastikan nama tabel 'Users' sudah benar
+
+            // ✅ INI PERBAIKANNYA: Memberi nama custom yang lebih pendek untuk unique index
+            $table->unique(
+                ['classroom_id', 'subject_id', 'school_year_id'],
+                'class_subject_year_unique' // Nama custom yang lebih pendek
+            );
+
             $table->timestamps();
         });
 

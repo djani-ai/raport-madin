@@ -19,14 +19,14 @@ return new class extends Migration
             $table->foreign('school_year_id')->references('id')->on('school_year');
             $table->unsignedBigInteger('students_id');
             $table->foreign('students_id')->references('id')->on('Students');
-            $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('Class');
+            $table->unsignedBigInteger('classroom_id');
+            $table->foreign('classroom_id')->references('id')->on('classroom');
             $table->integer('rank')->nullable();
             $table->text('guardian_note')->nullable();
             $table->text('head_note')->nullable();
             $table->enum('status_up', ["Naik", "Tinggal", "Lulus"])->nullable();
             $table->date('print_date')->nullable();
-            $table->unique(['school_year_id', 'students_id', 'class_id']);
+            $table->unique(['school_year_id', 'students_id', 'classroom_id']);
             $table->timestamps();
         });
 

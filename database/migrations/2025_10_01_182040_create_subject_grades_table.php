@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('subject_grades', function (Blueprint $table) {
+        Schema::create('subject_classrooms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('students_id')->constrained('students');
             $table->foreignId('schedule_of_subjects_id')->constrained('schedule_of_subjects');
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subject_grades');
+        Schema::dropIfExists('subject_classrooms');
     }
 };

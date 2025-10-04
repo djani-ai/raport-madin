@@ -64,52 +64,6 @@ class StudentResource extends Resource
             ]);
     }
 
-    // public static function infolist(Schema $schema): Schema
-    // {
-    //     return $schema
-    //         ->components([
-    //             Section::make('Heading')
-    //                 ->description('')
-    //                 ->schema([
-    //                     TextEntry::make('student_number')
-    //                         ->label('Nomor Induk'),
-    //                     TextEntry::make('national_id')
-    //                         ->label('NIK'),
-    //                     TextEntry::make('name')
-    //                         ->label('Nama Lengkap'),
-    //                     TextEntry::make('gender')
-    //                         ->label(__('Jenis Kelamin')),
-    //                     TextEntry::make('birth_place')
-    //                         ->label(__('Tempat Lahir')),
-    //                     TextEntry::make('birth_date')
-    //                         ->date()
-    //                         ->label(__('Tanggal Lahir')),
-    //                     TextEntry::make('religion')
-    //                         ->label(__('Agama')),
-    //                     TextEntry::make('child_number')
-    //                         ->label(__('Anak Ke'))
-    //                         ->numeric(),
-    //                     TextEntry::make('family_status')
-    //                         ->label(__('Status Dalam Keluarga')),
-    //                     TextEntry::make('school_name')
-    //                         ->label(__('Asal Sekolah')),
-    //                     TextEntry::make('father_name')
-    //                         ->label(__('Nama Ayah')),
-    //                     TextEntry::make('mother_name')
-    //                         ->label(__('Nama Ibu')),
-    //                     TextEntry::make('father_national_id')
-    //                         ->label(__('NIK Ayah')),
-    //                     TextEntry::make('mother_national_id')
-    //                         ->label(__('NIK Ibu')),
-    //                     TextEntry::make('father_job')
-    //                         ->label(__('Pekerjaan Ayah')),
-    //                     TextEntry::make('mother_job')
-    //                         ->label(__('Pekerjaan Ibu')),
-    //                 ])
-    //                 ->columns(2),
-
-    //         ]);
-    // }
 
     public static function table(Table $table): Table
     {

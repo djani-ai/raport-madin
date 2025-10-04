@@ -39,6 +39,10 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Input Reports')
                     ->icon('heroicon-o-document-text'),
                 NavigationGroup::make()
+                    ->label('Data')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsed(true),
+                NavigationGroup::make()
                     ->label('Master Data')
                     ->icon('heroicon-o-academic-cap')
                     ->collapsed(true),

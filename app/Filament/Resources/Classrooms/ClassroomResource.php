@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Grades;
+namespace App\Filament\Resources\Classrooms;
 
-use App\Filament\Resources\Grades\Pages\ManageGrades;
-use App\Models\Grade;
+use App\Filament\Resources\Classrooms\Pages\ManageClassrooms;
+use App\Models\Classroom;
 use App\Models\SchoolYear;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -18,12 +18,12 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use PhpParser\Node\Stmt\Label;
 use UnitEnum;
 
-class GradeResource extends Resource
+class ClassroomResource extends Resource
 {
-    protected static ?string $model = Grade::class;
+    protected static ?string $model = Classroom::class;
+
     protected static ?string $recordTitleAttribute = 'Kelas';
     protected static ?string $label = 'Kelas';
     protected static ?string $pluralLabel = 'Kelas';
@@ -36,13 +36,17 @@ class GradeResource extends Resource
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nama Kelas')
                     ->required(),
                 Select::make('level')
+                    ->label('Tingkatan')
                     ->options(['Awwaliyah' => 'Awwaliyah', 'Wustha' => 'Wustha', 'Ulya' => 'Ulya'])
                     ->required(),
                 Select::make('hr_teacher_id')
+                    ->label('Wali Kelas')
                     ->relationship('hr_teacher', 'name'),
                 Hidden::make('school_year_id')
+                    ->label('Tahun Ajaran')
                     ->default(function () {
                         return SchoolYear::where('is_active', true)->first()->id;
                     })
@@ -53,7 +57,7 @@ class GradeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Grade')
+            ->recordTitleAttribute('Classroom')
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
@@ -95,7 +99,7 @@ class GradeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageGrades::route('/'),
+            'index' => ManageClassrooms::route('/'),
         ];
     }
 }
