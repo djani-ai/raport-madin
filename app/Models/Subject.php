@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Subject extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
-    // protected $fillable = ['no', 'name', 'arabic_name'];
-    // public $timestamps = false;
+
+    public function classrooms()
+    {
+        return $this->BelongsToMany(Classroom::class);
+    }
 }

@@ -2,26 +2,38 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Classroom extends Model
 {
+    use HasFactory;
     protected $guarded = [];
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
+
     public function school_year()
     {
         return $this->belongsTo(SchoolYear::class);
     }
+
     public function hr_teacher()
     {
         return $this->belongsTo(Teacher::class);
     }
-    public function StudentClassroom()
+
+
+    public function classroom_student()
     {
-        return $this->belongsToMany(StudentClassroom::class);
+        return $this->belongsToMany(ClassroomStudent::class);
+    }
+
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+    }
+    public function students()
+    {
+        return $this->belongsToMany(Student::class);
     }
 
     public static function booted()

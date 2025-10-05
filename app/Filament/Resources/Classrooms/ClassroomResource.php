@@ -4,6 +4,10 @@ namespace App\Filament\Resources\Classrooms;
 
 use App\Filament\Resources\Classrooms\Pages\ManageClassrooms;
 use App\Filament\Resources\Classrooms\Pages\Rombel;
+use App\Filament\Resources\Classrooms\RelationManagers\StudentRelationManager;
+use App\Filament\Resources\Classrooms\RelationManagers\StudentsRelationManager;
+use App\Filament\Resources\Classrooms\RelationManagers\SubjectsRelationManager;
+use App\Filament\Resources\Students\StudentResource;
 use App\Models\Classroom;
 use App\Models\SchoolYear;
 use Filament\Actions\Action;
@@ -56,6 +60,7 @@ class ClassroomResource extends Resource
 
     public static function table(Table $table): Table
     {
+
         return $table
             ->recordTitleAttribute('Classroom')
             ->columns([
@@ -86,10 +91,7 @@ class ClassroomResource extends Resource
                 //
             ])
             ->recordActions([
-                Action::make('rombel')
-                    ->label('Rombel')
-                    ->url(fn(Classroom $record): string => Rombel::getUrl(['record' => $record], 'rombel'))
-                    ->icon('heroicon-o-users'),
+
                 EditAction::make(),
                 DeleteAction::make(),
             ])
@@ -104,8 +106,15 @@ class ClassroomResource extends Resource
     {
         return [
             'index' => ManageClassrooms::route('/'),
-            'rombel' => Rombel::route('/{record}/rombel'),
             'edit' => Pages\EditClassroom::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            SubjectsRelationManager::class,
+            StudentsRelationManager::class,
         ];
     }
 }
