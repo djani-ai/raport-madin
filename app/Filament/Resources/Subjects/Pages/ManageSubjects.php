@@ -33,7 +33,7 @@ class ManageSubjects extends ManageRecords
                 ])
                 ->sampleFileExcel(
                     url: url('file/TemplateMapel.xls'),
-                    sampleButtonLabel: 'Download Sample',
+                    sampleButtonLabel: 'Download Template',
                     customiseActionUsing: fn(ActionsAction $action) => $action->color('primary')
                         ->icon('heroicon-m-clipboard')
                         ->requiresConfirmation(),

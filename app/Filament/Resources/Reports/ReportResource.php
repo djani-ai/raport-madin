@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Reports;
 
+use App\Filament\Resources\Reports\Pages\CreateReport;
 use App\Filament\Resources\Reports\Pages\ManageReports;
 use App\Models\Report;
 use BackedEnum;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
@@ -34,24 +36,29 @@ class ReportResource extends Resource
     {
         return $schema
             ->components([
-                TextInput::make('school_year_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('students_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('class_id')
-                    ->required()
-                    ->numeric(),
-                TextInput::make('rank')
-                    ->numeric(),
-                Textarea::make('guardian_note')
-                    ->columnSpanFull(),
-                Textarea::make('head_note')
-                    ->columnSpanFull(),
-                Select::make('status_up')
-                    ->options(['Naik' => 'Naik', 'Tinggal' => 'Tinggal', 'Lulus' => 'Lulus']),
-                DatePicker::make('print_date'),
+                Section::make('')
+                    ->description('')
+                    ->schema([
+                        TextInput::make('school_year_id')
+                            ->required()
+                            ->numeric(),
+                        TextInput::make('students_id')
+                            ->required()
+                            ->numeric(),
+                        TextInput::make('class_id')
+                            ->required()
+                            ->numeric(),
+                        TextInput::make('rank')
+                            ->numeric(),
+                        Textarea::make('guardian_note')
+                            ->columnSpanFull(),
+                        Textarea::make('head_note')
+                            ->columnSpanFull(),
+                        Select::make('status_up')
+                            ->options(['Naik' => 'Naik', 'Tinggal' => 'Tinggal', 'Lulus' => 'Lulus']),
+                        DatePicker::make('print_date'),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -85,6 +92,7 @@ class ReportResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+
             ->filters([
                 //
             ])
@@ -103,6 +111,7 @@ class ReportResource extends Resource
     {
         return [
             'index' => ManageReports::route('/'),
+            'create' => CreateReport::route('/create')
         ];
     }
 }

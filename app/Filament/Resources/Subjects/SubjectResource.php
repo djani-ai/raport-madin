@@ -23,7 +23,7 @@ class SubjectResource extends Resource
     protected static ?string $model = Subject::class;
     protected static ?string $recordTitleAttribute = 'Mata Pelajaran';
     protected static string | UnitEnum | null $navigationGroup = 'Master Data';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Mata Pelajaran';
     protected static ?string $label = 'Mata Pelajaran';
     protected static ?string $pluralLabel = 'Mata Pelajaran';

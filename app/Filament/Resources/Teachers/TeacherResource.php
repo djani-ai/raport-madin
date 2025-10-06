@@ -26,7 +26,7 @@ class TeacherResource extends Resource
     // protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?string $recordTitleAttribute = 'Ustadz/Ustadzah';
     protected static string | UnitEnum | null $navigationGroup = 'Master Data';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Ustadz/Ustadzah';
     protected static ?string $label = 'Ustadz/Ustadzah';
     protected static ?string $pluralLabel = 'Ustadz/Ustadzah';

@@ -10,6 +10,8 @@
         "bezhansalleh/filament-shield": "^4.0",
         "eightynine/filament-excel-import": "^4.0",
         "filament/filament": "4.0",
+        "icetalker/filament-table-repeatable-entry": "^2.0",
+        "icetalker/filament-table-repeater": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "pxlrbt/filament-excel": "^3.1"

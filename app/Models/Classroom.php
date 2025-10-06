@@ -20,12 +20,10 @@ class Classroom extends Model
         return $this->belongsTo(Teacher::class);
     }
 
-
     public function classroom_student()
     {
         return $this->belongsToMany(ClassroomStudent::class);
     }
-
 
     public function subjects()
     {

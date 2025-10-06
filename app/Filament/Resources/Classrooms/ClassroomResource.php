@@ -22,6 +22,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Icetalker\FilamentTableRepeater\Forms\Components\TableRepeater;
 use UnitEnum;
 
 class ClassroomResource extends Resource
@@ -31,7 +32,7 @@ class ClassroomResource extends Resource
     protected static ?string $recordTitleAttribute = 'Kelas';
     protected static ?string $label = 'Kelas';
     protected static ?string $pluralLabel = 'Kelas';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
     protected static string | UnitEnum | null $navigationGroup = 'Master Data';
 
 
@@ -87,6 +88,7 @@ class ClassroomResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+
             ->filters([
                 //
             ])
