@@ -36,16 +36,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label('Input Reports')
-                    ->icon('heroicon-o-document-text'),
+                    ->label('Master Data')
+                    ->icon('heroicon-o-academic-cap')
+                    ->collapsed(true),
                 NavigationGroup::make()
                     ->label('Akademik')
                     ->icon('heroicon-o-academic-cap')
                     ->collapsed(true),
                 NavigationGroup::make()
-                    ->label('Master Data')
-                    ->icon('heroicon-o-academic-cap')
-                    ->collapsed(true),
+                    ->label('Input Reports')
+                    ->icon('heroicon-o-document-text'),
                 NavigationGroup::make()
                     ->label('Settings')
                     ->icon('heroicon-o-academic-cap')

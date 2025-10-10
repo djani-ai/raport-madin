@@ -14,25 +14,18 @@ class ValuesTable
     {
         return $table
             ->columns([
-                // TextColumn::make('school_year_id')
-                //     ->numeric()
-                //     ->sortable(),
-                TextColumn::make('classroom.name')
-
-                    // ->numeric()
+                TextColumn::make('school_year.name')
+                    ->label('Tahun Ajaran')
                     ->sortable(),
-                // TextColumn::make('student_id')
-                //     ->numeric()
-                //     ->sortable(),
-                TextColumn::make('subject.name')
+                TextColumn::make('student.name')
+                    ->sortable(),
+                TextColumn::make('schedule.subject.name')
+                    ->sortable(),
+                TextColumn::make('schedule.teacher.name')
+                    ->sortable(),
+                TextColumn::make('value')
                     ->numeric()
                     ->sortable(),
-                // TextColumn::make('teacher_id')
-                //     ->numeric()
-                //     ->sortable(),
-                // TextColumn::make('value')
-                //     ->numeric()
-                //     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -41,7 +34,7 @@ class ValuesTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
+            ])->paginated(false)
             ->filters([
                 //
             ])

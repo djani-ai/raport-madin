@@ -23,7 +23,13 @@ class SchoolYearResource extends Resource
     protected static ?string $model = SchoolYear::class;
 
     protected static string|\UnitEnum|null $navigationGroup = 'Settings';
-    protected static ?string $recordTitleAttribute = 'name'; // tampilkan nama tahun ajaran
+    protected static ?string $recordTitleAttribute = 'Tahun Ajaran';
+    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationLabel = 'Tahun Ajaran';
+    protected static ?string $label = 'Tahun Ajaran';
+    protected static ?string $pluralLabel = 'Tahun Ajaran';
+    protected static ?string $slug = 'tahun-ajaran';
+
 
     public static function form(Schema $schema): Schema
     {
@@ -32,19 +38,16 @@ class SchoolYearResource extends Resource
                 ->label('Tahun Ajaran')
                 ->required()
                 ->placeholder('mis: 2025/2026'),
-
-            Select::make('semester')
+            Select::make('Semester')
                 ->options([
                     'Ganjil' => 'Ganjil',
                     'Genap' => 'Genap',
                 ])
                 ->required(),
-
             Toggle::make('is_active')
                 ->label('Tahun Ajaran Aktif')
                 ->afterStateUpdated(function ($state, $set, $get, $record) {
                     if ($state) {
-                        // Nonaktifkan semua tahun ajaran lain
                         SchoolYear::where('id', '!=', $record?->id)->update(['is_active' => false]);
                     }
                 }),
@@ -64,13 +67,6 @@ class SchoolYearResource extends Resource
                 IconColumn::make('is_active')
                     ->label('Aktif')
                     ->boolean(),
-
-                // SelectColumn::make('is_active')
-                //     ->label('Set Tahun Ajaran Aktif')
-                //     ->optionsRelationship(fn(SchoolYear $record) => $record->update(['is_active' => true]))
-                //     ->after(function (SchoolYear $record) {
-                //         SchoolYear::where('id', '!=', $record->id)->update(['is_active' => false]);
-                //     })
             ])
             ->recordActions([
                 EditAction::make(),

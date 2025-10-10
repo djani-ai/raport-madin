@@ -16,11 +16,6 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        // User::factory(10)->create();
-        // Role::factory()->create([
-        //     'name' => 'super_admin',
-        //     'guard_name' => 'web',
-        // ]);
         User::factory()->create([
             'name' => 'Admin banget',
             'username' => 'adminbanget',
@@ -28,29 +23,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('Salah123@#'),
         ]);
         SchoolYear::factory()->create([
-            'name' => '2025',
+            'name' => '2025/2026',
             'semester' => 'Ganjil',
             'is_active' => true,
         ]);
-        Teacher::factory()->create([
-            'name' => 'Guru HR 1',
-            'nip' => '1234567890'
-        ]);
-        Classroom::factory()->create([
-            'name' => '1A',
-            'level' => 'Awwaliyah',
-            'school_year_id' => 1,
-            'hr_teacher_id' => 1,
-        ]);
-        Subject::factory()->create([
-            'name' => 'Bahasa Arab',
-            'arabic_name' => 'اللغة العربية',
-            'no' => 1,
-        ]);
-        Student::factory()->create([
-            'student_number' => '2025001',
-            'name' => 'Siswa 1',
-            'gender' => 'L',
-        ]);
+        Teacher::factory()->count(5)->create();
+        Classroom::factory()->count(1)->create();
+        Subject::factory()->count(5)->create();
+        Student::factory()->count(10)->create();
     }
 }

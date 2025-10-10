@@ -12,11 +12,9 @@ return new class extends Migration
         Schema::create('values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_year_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('schedule_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('subject_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('teacher_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('value')->default('0');
+            $table->integer('value')->default('0')->nullable();
             $table->timestamps();
         });
     }

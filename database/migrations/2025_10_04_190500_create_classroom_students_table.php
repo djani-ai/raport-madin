@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('classroom_student', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('classroom_id');
-            $table->unsignedBigInteger('student_id');
-            $table->foreign('classroom_id')->references('id')->on('classrooms')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('student_id')->references('id')->on('students')->onUpdate('cascade')->onDelete('cascade');
+            // $table->foreignId('school_year_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate()->nullable();
+            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unique(['classroom_id', 'student_id',], 'unique_classroom_students');
             $table->timestamps();
         });
     }

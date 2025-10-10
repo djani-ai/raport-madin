@@ -15,18 +15,17 @@ return new class extends Migration
 
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_year_id');
-            $table->foreign('school_year_id')->references('id')->on('school_year');
-            $table->unsignedBigInteger('students_id');
-            $table->foreign('students_id')->references('id')->on('Students');
-            $table->unsignedBigInteger('classroom_id');
-            $table->foreign('classroom_id')->references('id')->on('classroom');
+
+            $table->foreignId('school_year_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('classroom_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('total_score')->nullable();
             $table->integer('rank')->nullable();
             $table->text('guardian_note')->nullable();
             $table->text('head_note')->nullable();
             $table->enum('status_up', ["Naik", "Tinggal", "Lulus"])->nullable();
             $table->date('print_date')->nullable();
-            $table->unique(['school_year_id', 'students_id', 'classroom_id']);
+            $table->unique(['school_year_id', 'student_id', 'classroom_id']);
             $table->timestamps();
         });
 
