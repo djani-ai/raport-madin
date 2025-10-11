@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('classroom_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('subject_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('teacher_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->boolean('lock_value_status')->nullable()->default(false);
             $table->timestamps();
             $table->unique(['school_year_id', 'classroom_id', 'subject_id', 'teacher_id'], 'unique_schedule');
         });

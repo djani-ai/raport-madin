@@ -22,7 +22,7 @@ use Filament\Tables\Table;
 class SchedulesRelationManager extends RelationManager
 {
     protected static string $relationship = 'schedules';
-    protected static string $itemlabel = 'Mata Pelajaran';
+    protected static ?string $title = 'Mata Pelajaran';
     protected static bool $isLazy = false;
 
     public function form(Schema $schema): Schema
@@ -36,6 +36,12 @@ class SchedulesRelationManager extends RelationManager
                     ->relationship('teacher', 'name')
                     ->required()
                     ->hiddenLabel(),
+                Hidden::make('school_year_id')
+                    ->label('Tahun Ajaran')
+                    ->default(function () {
+                        return SchoolYear::where('is_active', true)->first()->id;
+                    })
+                    ->required(),
                 Hidden::make('school_year_id')
                     ->label('Tahun Ajaran')
                     ->default(function () {

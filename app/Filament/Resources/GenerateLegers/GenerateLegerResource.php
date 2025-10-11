@@ -5,6 +5,7 @@ namespace App\Filament\Resources\GenerateLegers;
 use App\Filament\Resources\GenerateLegers\Pages\CreateGenerateLeger;
 use App\Filament\Resources\GenerateLegers\Pages\EditGenerateLeger;
 use App\Filament\Resources\GenerateLegers\Pages\ListGenerateLegers;
+use App\Filament\Resources\GenerateLegers\Pages\ViewGenerateLeger;
 use App\Filament\Resources\GenerateLegers\Schemas\GenerateLegerForm;
 use App\Filament\Resources\GenerateLegers\Tables\GenerateLegersTable;
 use App\Models\Classroom;
@@ -19,12 +20,12 @@ use UnitEnum;
 class GenerateLegerResource extends Resource
 {
     protected static ?string $model = Classroom::class;
-    protected static ?string $recordTitleAttribute = 'ProsesLeger&Nilai';
+    protected static ?string $recordTitleAttribute = 'Leger & Nilai';
     protected static string | UnitEnum | null $navigationGroup = 'Akademik';
     protected static ?int $navigationSort = 2;
-    protected static ?string $navigationLabel = 'ProsesLeger&Nilai';
-    protected static ?string $label = 'ProsesLeger&Nilai';
-    protected static ?string $pluralLabel = 'ProsesLeger&Nilai';
+    protected static ?string $navigationLabel = 'Leger & Nilai';
+    protected static ?string $label = 'Leger & Nilai';
+    protected static ?string $pluralLabel = 'Leger & Nilai';
     protected static ?string $slug = 'leger';
 
 
@@ -51,6 +52,8 @@ class GenerateLegerResource extends Resource
             'index' => ListGenerateLegers::route('/'),
             'create' => CreateGenerateLeger::route('/create'),
             'edit' => EditGenerateLeger::route('/{record}/edit'),
+            'view' => ViewGenerateLeger::route('/{record}'),
+
         ];
     }
 }

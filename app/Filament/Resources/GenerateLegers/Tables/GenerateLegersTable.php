@@ -6,10 +6,12 @@ use App\Models\Classroom;
 use App\Models\GenerateLeger;
 use App\Models\Report;
 use App\Models\SchoolYear;
+use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -20,14 +22,16 @@ class GenerateLegersTable
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->searchable(),
-                TextColumn::make('level'),
-                TextColumn::make('hr_teacher_id')
-                    ->numeric()
+                TextColumn::make('school_year.name')
+                    ->label('Tahun Ajaran')
                     ->sortable(),
-                TextColumn::make('school_year_id')
-                    ->numeric()
+                TextColumn::make('name')
+                    ->label('Nama Kelas')
+                    ->searchable(),
+                TextColumn::make('level')
+                    ->label('Tingkatan'),
+                TextColumn::make('hr_teacher.name')
+                    ->label('Wali Kelas')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -42,59 +46,57 @@ class GenerateLegersTable
                 //
             ])
             ->recordActions([
-                // EditAction::make(),
                 Action::make('process_ranking')
                     ->label('Proses Peringkat & Leger')
                     ->icon('heroicon-o-calculator')
                     ->action(function (Classroom $record) {
-                        // AMBIL SEMUA LOGIKA DARI JAWABAN SEBELUMNYA
-                        // $schoolYearId = SchoolYear::where('is_active', true)->first('id');
                         $schoolYearId = $record->school_year_id;
-
-                        // dd($schoolYearId);
-                        // 1. Ambil data mentah (Sama seperti sebelumnya)
-                        $classroom = $record->load(['students.values' => function ($q) use ($schoolYearId) {
-                            $q->where('school_year_id', $schoolYearId);
-                        }]);
-
-                        // 2. Kalkulasi & Agregasi (Sama seperti sebelumnya)
-                        $reportData = collect();
-                        foreach ($classroom->students as $student) {
-                            $reportData->push([
-                                'student_id' => $student->id,
-                                'total_score' => $student->values->sum('value'),
-                            ]);
-                        }
-                        // 3. Urutkan & Beri Peringkat (Sama seperti sebelumnya)
-                        $sortedData = $reportData->sortByDesc('total_score');
+                        $studentsWithScores = Student::query()
+                            ->whereHas('classrooms', function ($query) use ($record) {
+                                $query->where('classrooms.id', $record->id);
+                            })
+                            // Menghitung total nilai
+                            ->withSum(['values' => function ($query) use ($schoolYearId) {
+                                $query->where('school_year_id', $schoolYearId);
+                            }], 'value')
+                            // [1] Menghitung jumlah entri nilai
+                            ->withCount(['values' => function ($query) use ($schoolYearId) {
+                                $query->where('school_year_id', $schoolYearId);
+                            }])
+                            ->orderByDesc('values_sum_value')
+                            ->get();
                         $rank = 0;
                         $lastScore = -1;
-                        $rankedData = $sortedData->map(function ($item, $key) use (&$rank, &$lastScore) {
-                            if ($item['total_score'] != $lastScore) {
+                        $rankedData = [];
+                        foreach ($studentsWithScores as $key => $student) {
+                            $currentScore = $student->values_sum_value ?? 0;
+                            // [2] Menghitung nilai rata-rata
+                            $scoresCount = $student->values_count ?? 0;
+                            $averageScore = $scoresCount > 0 ? ($currentScore / $scoresCount) : 0;
+                            if ($currentScore != $lastScore) {
                                 $rank = $key + 1;
                             }
-                            $item['rank'] = $rank;
-                            $lastScore = $item['total_score'];
-                            return $item;
-                        });
-
-                        // 4. SIMPAN KE DATABASE
-                        foreach ($rankedData as $data) {
-                            Report::updateOrCreate(
-                                [
-                                    'school_year_id' => $schoolYearId,
-                                    'classroom_id' => $record->id,
-                                    'student_id' => $data['student_id'],
-                                ],
-                                [
-                                    'total_score' => $data['total_score'],
-                                    'rank' => $data['rank'],
-                                ]
-                            );
+                            $rankedData[] = [
+                                'school_year_id' => $schoolYearId,
+                                'classroom_id'   => $record->id,
+                                'student_id'     => $student->id,
+                                'total_score'    => $currentScore,
+                                'average_score'  => $averageScore, // Tambahkan rata-rata di sini
+                                'rank'           => $rank,
+                            ];
+                            $lastScore = $currentScore;
                         }
 
+                        Report::upsert(
+                            $rankedData,
+                            ['school_year_id', 'classroom_id', 'student_id'],
+                            // [3] Pastikan average_score juga di-update
+                            ['total_score', 'average_score', 'rank']
+                        );
+
                         Notification::make()->title('Peringkat berhasil diproses!')->success()->send();
-                    })
+                    }),
+                ViewAction::make('leger'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

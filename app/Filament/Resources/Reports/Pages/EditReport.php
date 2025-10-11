@@ -3,17 +3,17 @@
 namespace App\Filament\Resources\Reports\Pages;
 
 use App\Filament\Resources\Reports\ReportResource;
-use Filament\Actions\CreateAction;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Actions\DeleteAction;
+use Filament\Resources\Pages\EditRecord;
 
-class ManageReports extends ManageRecords
+class EditReport extends EditRecord
 {
     protected static string $resource = ReportResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            // CreateAction::make(),
+            // DeleteAction::make(),
         ];
     }
 }

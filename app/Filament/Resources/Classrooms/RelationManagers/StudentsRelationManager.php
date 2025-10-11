@@ -13,10 +13,12 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class StudentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'students';
+    protected static ?string $title = 'Santri';
     protected static string $itemlabel = 'Santri';
     protected static bool $isLazy = false;
 
@@ -25,7 +27,6 @@ class StudentsRelationManager extends RelationManager
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->sortable()
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,9 +38,9 @@ class StudentsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-            ])
+            ])->defaultSort(function (Builder $query): Builder {
+                return $query->orderBy('name');
+            })
             ->filters([
                 //
             ])
@@ -51,7 +52,8 @@ class StudentsRelationManager extends RelationManager
                     ->multiple(),
             ])
             ->recordActions([
-                DetachAction::make(),
+                DetachAction::make()
+                    ->label('Hapus Santri dari Kelas'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

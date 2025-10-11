@@ -25,8 +25,6 @@ use UnitEnum;
 class ClassroomResource extends Resource
 {
     protected static ?string $model = Classroom::class;
-
-    protected static ?string $recordTitleAttribute = 'Kelas';
     protected static ?string $label = 'Kelas';
     protected static ?string $pluralLabel = 'Kelas';
     protected static ?int $navigationSort = 4;

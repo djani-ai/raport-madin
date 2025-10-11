@@ -23,10 +23,6 @@ use UnitEnum;
 class ScheduleResource extends Resource
 {
     protected static ?string $model = Schedule::class;
-
-    // protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'Input Nilai';
     protected static string | UnitEnum | null $navigationGroup = 'Akademik';
     protected static ?int $navigationSort = 1;
     protected static ?string $navigationLabel = 'Input Nilai';

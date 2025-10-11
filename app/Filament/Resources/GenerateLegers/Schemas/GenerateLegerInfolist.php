@@ -4,7 +4,7 @@ namespace App\Filament\Resources\GenerateLegers\Schemas;
 
 use Filament\Schemas\Schema;
 
-class GenerateLegerForm
+class GenerateLegerInfolist
 {
     public static function configure(Schema $schema): Schema
     {
