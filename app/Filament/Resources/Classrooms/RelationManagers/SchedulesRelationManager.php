@@ -31,7 +31,11 @@ class SchedulesRelationManager extends RelationManager
             ->components([
                 Select::make('subject_id')
                     ->relationship('subject', 'name')
-                    ->hiddenLabel(),
+                    ->hiddenLabel()
+                    ->unique()
+                    ->validationMessages([
+                        'unique' => 'Mata Pelajaran Sudah Sudah Ada.',
+                    ]),
                 Select::make('teacher_id')
                     ->relationship('teacher', 'name')
                     ->required()

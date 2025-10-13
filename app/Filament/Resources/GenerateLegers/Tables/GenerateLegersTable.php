@@ -42,9 +42,7 @@ class GenerateLegersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->recordActions([
                 Action::make('process_ranking')
                     ->label('Proses Peringkat & Leger')
@@ -55,11 +53,9 @@ class GenerateLegersTable
                             ->whereHas('classrooms', function ($query) use ($record) {
                                 $query->where('classrooms.id', $record->id);
                             })
-                            // Menghitung total nilai
                             ->withSum(['values' => function ($query) use ($schoolYearId) {
                                 $query->where('school_year_id', $schoolYearId);
                             }], 'value')
-                            // [1] Menghitung jumlah entri nilai
                             ->withCount(['values' => function ($query) use ($schoolYearId) {
                                 $query->where('school_year_id', $schoolYearId);
                             }])
@@ -70,7 +66,6 @@ class GenerateLegersTable
                         $rankedData = [];
                         foreach ($studentsWithScores as $key => $student) {
                             $currentScore = $student->values_sum_value ?? 0;
-                            // [2] Menghitung nilai rata-rata
                             $scoresCount = $student->values_count ?? 0;
                             $averageScore = $scoresCount > 0 ? ($currentScore / $scoresCount) : 0;
                             if ($currentScore != $lastScore) {
@@ -81,19 +76,16 @@ class GenerateLegersTable
                                 'classroom_id'   => $record->id,
                                 'student_id'     => $student->id,
                                 'total_score'    => $currentScore,
-                                'average_score'  => $averageScore, // Tambahkan rata-rata di sini
+                                'average_score'  => $averageScore,
                                 'rank'           => $rank,
                             ];
                             $lastScore = $currentScore;
                         }
-
                         Report::upsert(
                             $rankedData,
                             ['school_year_id', 'classroom_id', 'student_id'],
-                            // [3] Pastikan average_score juga di-update
                             ['total_score', 'average_score', 'rank']
                         );
-
                         Notification::make()->title('Peringkat berhasil diproses!')->success()->send();
                     }),
                 ViewAction::make('leger'),

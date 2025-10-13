@@ -18,37 +18,31 @@ use UnitEnum;
 class ReportResource extends Resource
 {
     protected static ?string $model = Report::class;
-
     protected static string | UnitEnum | null $navigationGroup = 'Akademik';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Raport';
     protected static ?string $label = 'Raport';
     protected static ?string $pluralLabel = 'Raport';
     protected static ?string $slug = 'report';
-
     public static function form(Schema $schema): Schema
     {
         return ReportForm::configure($schema);
     }
-
     public static function table(Table $table): Table
     {
         return ReportsTable::configure($table);
     }
-
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
-
     public static function getPages(): array
     {
         return [
             'index' => ListReports::route('/'),
             // 'create' => CreateReport::route('/create'),
             'edit' => EditReport::route('/{record}'),
+
         ];
     }
 }

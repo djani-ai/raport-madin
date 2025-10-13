@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Reports\Tables;
 
+use App\Models\Report;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -10,6 +12,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Blade;
+use Spatie\LaravelPdf\Facades\Pdf as FacadesPdf;
+use Torgodly\Html2Media\Actions\Html2MediaAction;
 
 class ReportsTable
 {
@@ -71,6 +77,12 @@ class ReportsTable
             ->recordActions([
                 EditAction::make()
                     ->label('Lengkapi'),
+                Action::make('Lihat HTML')
+                    ->label('Lihat HTML')
+                    ->color('info')
+                    ->icon('heroicon-s-eye')
+                    ->url(fn(Report $record): string => route('raport.preview', ['record' => $record]))
+                    ->openUrlInNewTab(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

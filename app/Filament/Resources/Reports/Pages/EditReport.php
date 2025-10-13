@@ -14,6 +14,7 @@ class EditReport extends EditRecord
     {
         return [
             // DeleteAction::make(),
+
         ];
     }
 }

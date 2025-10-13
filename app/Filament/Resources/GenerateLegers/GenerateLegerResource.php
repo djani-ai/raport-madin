@@ -33,19 +33,14 @@ class GenerateLegerResource extends Resource
     {
         return GenerateLegerForm::configure($schema);
     }
-
     public static function table(Table $table): Table
     {
         return GenerateLegersTable::configure($table);
     }
-
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
-
     public static function getPages(): array
     {
         return [
@@ -53,7 +48,6 @@ class GenerateLegerResource extends Resource
             'create' => CreateGenerateLeger::route('/create'),
             'edit' => EditGenerateLeger::route('/{record}/edit'),
             'view' => ViewGenerateLeger::route('/{record}'),
-
         ];
     }
 }
