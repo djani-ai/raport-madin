@@ -4,6 +4,7 @@ namespace App\Filament\Resources\GenerateLegers\Pages;
 
 use App\Filament\Resources\GenerateLegers\GenerateLegerResource;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditGenerateLeger extends EditRecord
@@ -12,6 +13,9 @@ class EditGenerateLeger extends EditRecord
 
     protected function getHeaderActions(): array
     {
-        return [];
+        return [
+            // ViewAction::make(),
+            // DeleteAction::make(),
+        ];
     }
 }

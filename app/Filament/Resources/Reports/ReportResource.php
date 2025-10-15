@@ -19,7 +19,7 @@ class ReportResource extends Resource
 {
     protected static ?string $model = Report::class;
     protected static string | UnitEnum | null $navigationGroup = 'Akademik';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Raport';
     protected static ?string $label = 'Raport';
     protected static ?string $pluralLabel = 'Raport';
@@ -42,7 +42,6 @@ class ReportResource extends Resource
             'index' => ListReports::route('/'),
             // 'create' => CreateReport::route('/create'),
             'edit' => EditReport::route('/{record}'),
-
         ];
     }
 }

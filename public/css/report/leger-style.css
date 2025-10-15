@@ -1,0 +1,180 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.report-container {
+    width: 834px;
+    margin: 20px auto;
+}
+
+.report-header {
+    margin-bottom: 5px;
+}
+
+.report-header .title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.report-header .student-info {
+    display: flex;
+    justify-content: space-between;
+    background-color: #eeeeee;
+    padding: 15px 20px;
+    border: 1px solid #000;
+    border-bottom: 3px solid #000;
+    font-size: 14px;
+}
+
+.student-info table td {
+    padding: 2px 4px;
+}
+
+.report-card {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    color: #000000;
+    table-layout: fixed;
+}
+
+.report-card th,
+.report-card td {
+    border: 1px solid #000000;
+    padding: 6px 5px;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.report-card .header-row th {
+    background-color: #b9c9fe;
+    font-weight: bold;
+    text-align: center;
+}
+
+.report-card .grade-row-odd {
+    background-color: #ffffff;
+}
+
+.report-card .grade-row-even {
+    background-color: #e8edff;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.font-italic {
+    font-style: italic;
+}
+
+.align-bottom {
+    vertical-align: bottom;
+}
+
+.vertical-divider {
+    border-left: 1px solid #000000;
+    border-right: 1px solid #000000;
+    border-top: none;
+    border-bottom: none;
+    background-color: #ffffff;
+}
+
+.section-header {
+    background-color: #ecf4ff;
+    font-weight: bold;
+    text-align: center;
+}
+
+.summary-row td {
+    background-color: #ecf4ff;
+    font-weight: bold;
+}
+
+.spacer-row td {
+    border: 1px solid #343434;
+    background-color: #ffffff;
+}
+
+.invisible-spacer-row td {
+    border-color: #ffffff;
+    background-color: #ffffff;
+}
+
+.notes-header td {
+    border: 1px solid #656565;
+    font-weight: bold;
+    background-color: #ffffff;
+}
+
+.notes-content td {
+    font-style: italic;
+    background-color: #ffffff;
+    border-bottom: 1px solid #656565;
+}
+
+.personality-row {
+    background-color: #ffffff;
+}
+
+/* Styling for bottom section tables */
+.bottom-section-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.sub-table {
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed;
+}
+
+.sub-table th,
+.sub-table td {
+    border: 1px solid #000;
+    padding: 6px 5px;
+    vertical-align: middle;
+}
+
+.kepribadian-table {
+    width: 55%;
+}
+
+.absensi-table {
+    width: 44.5%;
+}
+
+.notes-table {
+    margin-top: 5px;
+}
+
+.signature-section {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 14px;
+}
+
+.signature-box {
+    width: 220px;
+}
+
+.signature-box .name {
+    margin-top: 60px;
+    font-weight: bold;
+    text-decoration: underline;
+}

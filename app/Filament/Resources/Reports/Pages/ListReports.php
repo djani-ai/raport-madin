@@ -12,6 +12,10 @@ class ListReports extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        return [];
+    }
+    protected function getTableHeaderActions(): array
+    {
         return [
             // CreateAction::make(),
         ];
