@@ -38,29 +38,55 @@ class StudentResource extends Resource
         return $schema
             ->components([
                 TextInput::make('student_number')
+                    ->label('Nomor Induk')
                     ->required()
                     ->unique(ignoreRecord: true),
-                TextInput::make('national_id'),
+                TextInput::make('national_id')
+                    ->label('NIK')
+                    ->required(),
                 TextInput::make('name')
+                    ->label('Nama Lengkap')
                     ->required(),
                 Select::make('gender')
+                    ->label('Jenis Kelamin')
                     ->options(['L' => 'L', 'P' => 'P'])
                     ->required(),
-                TextInput::make('birth_place'),
-                DatePicker::make('birth_date'),
-                TextInput::make('religion'),
+                TextInput::make('birth_place')
+                    ->label('Tempat Lahir')
+                    ->required(),
+                DatePicker::make('birth_date')
+                    ->label('Tanggal Lahir')
+                    ->required(),
+                TextInput::make('religion')
+                    ->label('Agama')
+                    ->required(),
                 TextInput::make('child_number')
+                    ->label('Anak Ke')
                     ->numeric(),
-                TextInput::make('family_status'),
+                Select::make('family_status')
+                    ->label('Status Dalam Keluarga')
+                    ->required()
+                    ->options([
+                        'Anak Kandung' => 'Anak Kandung',
+                        'Anak Tiri' => 'Anak Tiri',
+                        'Anak Angkat' => 'Anak Angkat',
+                    ]),
                 Textarea::make('address')
                     ->columnSpanFull(),
-                TextInput::make('school_name'),
-                TextInput::make('father_name'),
-                TextInput::make('mother_name'),
-                TextInput::make('father_national_id'),
-                TextInput::make('mother_national_id'),
-                TextInput::make('father_job'),
-                TextInput::make('mother_job'),
+                TextInput::make('school_name')
+                    ->label('Asal Sekolah'),
+                TextInput::make('father_name')
+                    ->label('Nama Ayah'),
+                TextInput::make('mother_name')
+                    ->label('Nama Ibu'),
+                TextInput::make('father_national_id')
+                    ->label('NIK Ayah'),
+                TextInput::make('mother_national_id')
+                    ->label('NIK Ibu'),
+                TextInput::make('father_job')
+                    ->label('Pekerjaan Ayah'),
+                TextInput::make('mother_job')
+                    ->label('Pekerjaan Ibu'),
             ]);
     }
 
@@ -68,7 +94,7 @@ class StudentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Santri')
+            // ->recordTitleAttribute('Santri')
             ->columns([
                 TextColumn::make('student_number')
                     ->label('Nomor Induk')
@@ -123,7 +149,6 @@ class StudentResource extends Resource
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

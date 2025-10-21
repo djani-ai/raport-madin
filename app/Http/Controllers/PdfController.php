@@ -20,10 +20,40 @@ class PdfController extends Controller
             ->where('school_year_id', $report->school_year_id)
             ->with('schedule.subject')
             ->get();
-        $fileName = 'Raport -' . $report->student->name . '.pdf';
+        $fileName = 'Raport - ' . $report->student->name . '.pdf';
         return Pdf::view('raport.pdf', [
             'report' => $report,
             'values' => $values
+        ])
+            ->paperSize(215.9, 330, 'mm')
+            ->inline($fileName)
+            ->margins($top, $right, $bottom, $left, Unit::Pixel);
+    }
+    public function cetakBiodata(Report $report)
+    {
+        $top = 10;
+        $right = 30;
+        $bottom = 10;
+        $left = 30;
+        $report->load(['student', 'classroom', 'schoolYear']);
+        $fileName = 'Biodata - ' . $report->student->name . '.pdf';
+        return Pdf::view('raport.biodata', [
+            'record' => $report,
+        ])
+            ->paperSize(215.9, 330, 'mm')
+            ->inline($fileName)
+            ->margins($top, $right, $bottom, $left, Unit::Pixel);
+    }
+    public function cetakBiodata2(Report $report)
+    {
+        $top = 10;
+        $right = 30;
+        $bottom = 10;
+        $left = 30;
+        $report->load(['student', 'classroom', 'schoolYear']);
+        $fileName = 'Biodata - ' . $report->student->name . '.pdf';
+        return Pdf::view('raport.biodata2', [
+            'record' => $report,
         ])
             ->paperSize(215.9, 330, 'mm')
             ->inline($fileName)

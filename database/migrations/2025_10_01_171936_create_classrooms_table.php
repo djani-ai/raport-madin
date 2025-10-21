@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->enum('level', ["Awwaliyah", "Wustha", "Ulya"]);
             $table->unsignedBigInteger('hr_teacher_id')->nullable();
-            $table->foreign('hr_teacher_id')->references('id')->on('Users');
+            $table->foreign('hr_teacher_id')->references('id')->on('Users')->nullOnDelete();
             $table->unsignedBigInteger('school_year_id');
             $table->foreign('school_year_id')->references('id')->on('school_years');
             $table->timestamps();

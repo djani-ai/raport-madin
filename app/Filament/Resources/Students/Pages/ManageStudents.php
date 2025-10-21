@@ -7,10 +7,10 @@ use App\Imports\StudentImport;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use EightyNine\ExcelImport\ExcelImportAction;
+use pxlrbt\FilamentExcel\Actions\ExportAction;
 use pxlrbt\FilamentExcel\Columns\Column;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class ManageStudents extends ManageRecords
 {
@@ -25,16 +25,15 @@ class ManageStudents extends ManageRecords
                 ->label('Tambah')
                 ->color('danger')
                 ->icon('heroicon-o-plus'),
-            ExcelImportAction::make()
+            ExcelImportAction::make('import')
                 ->color('success')
                 ->icon('heroicon-o-cloud-arrow-up')
                 ->use(StudentImport::class)
                 ->sampleFileExcel(
                     url: url('file/TemplateSantri.xls'),
-                    sampleButtonLabel: 'Download Sample',
+                    sampleButtonLabel: 'Download Template',
                     customiseActionUsing: fn(Action $action) => $action->color('primary')
-                        ->icon('heroicon-m-clipboard')
-                        ->requiresConfirmation(),
+                        ->icon('heroicon-m-clipboard'),
                 ),
             ExportAction::make()
                 ->color('info')
@@ -67,6 +66,12 @@ class ManageStudents extends ManageRecords
                     ])
                         ->withFilename($filename)
                 ])
+            // ->exporter(StudentExporter::class)
+            // ->columnMapping(false)
+            // ->formats([ExportFormat::Xlsx])
+            // // ->fileName($filename),
+            // ->fileName(fn(Export $export) => "Students-{$export->getKey()}.xlsx")
+            // ->queue(false),
         ];
     }
 }

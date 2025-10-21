@@ -73,7 +73,9 @@ class ValuesRelationManager extends RelationManager
                             ->send();
                     }),
             ])
-            ->recordActions([])
+            ->recordActions([
+                ImportAc
+            ])
             ->toolbarActions([]);
     }
 }

@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Rapor Santri - {{ optional($report->student)->name }}</title>
+    <title>{{ $filename }}</title>
     <link rel="stylesheet" href="{{ asset('css/report/report-style.css') }}">
 </head>
 

@@ -32,8 +32,8 @@ class ManageTeachers extends ManageRecords
                 ->icon('heroicon-o-cloud-arrow-up')
                 ->use(TeacherImport::class)
                 ->sampleFileExcel(
-                    url: url('file/TemplateUstad.xls'),
-                    sampleButtonLabel: 'Download Sample',
+                    url: url('file/Template-Ustadz.xls'),
+                    sampleButtonLabel: 'Download Template',
                     customiseActionUsing: fn(Action $action) => $action->color('primary')
                         ->icon('heroicon-m-clipboard')
                         ->requiresConfirmation(),

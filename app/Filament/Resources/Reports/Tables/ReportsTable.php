@@ -60,7 +60,20 @@ class ReportsTable
                     ->label('Cover')
                     ->icon('heroicon-o-printer')
                     ->color('danger')
-                    ->url(fn(Report $record): string => route('report.cetak', $record)),
+                    ->url(fn(Report $record): string => route('report.cover', $record)),
+
+                Action::make('cetak')
+                    ->label('Bio-Ar')
+                    ->icon('heroicon-o-printer')
+                    ->color('success')
+                    ->url(fn(Report $record): string => route('report.biodata', $record)),
+
+                Action::make('cetak')
+                    ->label('Bio-ID')
+                    ->icon('heroicon-o-printer')
+                    ->color('info')
+                    ->url(fn(Report $record): string => route('report.biodata2', $record)),
+
                 Action::make('cetak')
                     ->label('Raport PDF')
                     ->icon('heroicon-o-printer')

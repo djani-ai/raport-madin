@@ -21,15 +21,18 @@ class ManageSubjects extends ManageRecords
         $resourceName = str_replace('Resource', '', class_basename(static::$resource));
         $filename = strtolower($resourceName) . '_' . date('Y-m-d_h-i-s');
         return [
-            CreateAction::make(),
+            CreateAction::make()
+                ->label('Tambah')
+                ->color('danger')
+                ->icon('heroicon-o-plus'),
             ExcelImportAction::make()
-                ->color("primary")
+                ->color('success')
                 ->modalHeading('Import Mata Pelajaran')
                 ->modalDescription('Import data mata pelajaran dari file Excel')
                 ->slideOver()
                 ->use(SubjectImport::class)
                 ->validateUsing([
-                    'student_number' => ['required', 'unique:students,student_number'],
+                    'name' => ['required', 'unique:subjects,name'],
                 ])
                 ->sampleFileExcel(
                     url: url('file/TemplateMapel.xls'),
@@ -38,14 +41,17 @@ class ManageSubjects extends ManageRecords
                         ->icon('heroicon-m-clipboard')
                         ->requiresConfirmation(),
                 ),
-            ExportAction::make()->exports([
-                ExcelExport::make()->withColumns([
-                    Column::make('no')->heading('No'),
-                    Column::make('name')->heading('Nama'),
-                    Column::make('arabic_name')->heading('Nama Bahasa Arab'),
+            ExportAction::make()
+                ->color('info')
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->exports([
+                    ExcelExport::make()->withColumns([
+                        Column::make('no')->heading('No'),
+                        Column::make('name')->heading('Nama'),
+                        Column::make('arabic_name')->heading('Nama Bahasa Arab'),
+                    ])
+                        ->withFilename($filename)
                 ])
-                    ->withFilename($filename)
-            ])
         ];
     }
 }

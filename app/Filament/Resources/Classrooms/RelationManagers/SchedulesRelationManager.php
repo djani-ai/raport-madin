@@ -14,10 +14,13 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Repeater\TableColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Zvizvi\RelationManagerRepeater\Tables\RelationManagerRepeaterAction;
 
 class SchedulesRelationManager extends RelationManager
 {
@@ -28,37 +31,13 @@ class SchedulesRelationManager extends RelationManager
     public function form(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->hiddenLabel()
-                    ->unique()
-                    ->validationMessages([
-                        'unique' => 'Mata Pelajaran Sudah Sudah Ada.',
-                    ]),
-                Select::make('teacher_id')
-                    ->relationship('teacher', 'name')
-                    ->required()
-                    ->hiddenLabel(),
-                Hidden::make('school_year_id')
-                    ->label('Tahun Ajaran')
-                    ->default(function () {
-                        return SchoolYear::where('is_active', true)->first()->id;
-                    })
-                    ->required(),
-                Hidden::make('school_year_id')
-                    ->label('Tahun Ajaran')
-                    ->default(function () {
-                        return SchoolYear::where('is_active', true)->first()->id;
-                    })
-                    ->required(),
-            ]);
+            ->components([]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('id')
+
             ->recordTitle('Data Jadwal')
             ->columns([
                 TextColumn::make('subject.name')
@@ -70,9 +49,34 @@ class SchedulesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make()
-                    ->label('Tambah Jadwal')
-                    ->color('success'),
+                RelationManagerRepeaterAction::make()
+                    ->modalWidth('5xl')
+                    ->label('Edit Jadwal')
+                    ->configureRepeater(function (Repeater $repeater) {
+                        return $repeater
+                            ->schema([
+                                Select::make('subject_id')
+                                    ->relationship('subject', 'name')
+                                    ->hiddenLabel()
+                                    ->distinct()
+                                    ->validationMessages([
+                                        'distinct' => 'Mata Pelajaran Sudah Sudah Ada.',
+                                    ]),
+                                Select::make('teacher_id')
+                                    ->relationship('teacher', 'name')
+                                    ->required()
+                                    ->hiddenLabel(),
+                                Hidden::make('school_year_id')
+                                    ->label('Tahun Ajaran')
+                                    ->default(function () {
+                                        return SchoolYear::where('is_active', true)->first()->id;
+                                    })
+                                    ->required(),
+                            ])
+                            ->deletable(false)
+                            ->grid(2)
+                            ->columns(2)->columnSpanFull();
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),
