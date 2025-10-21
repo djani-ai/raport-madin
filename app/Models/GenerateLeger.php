@@ -35,4 +35,12 @@ class GenerateLeger extends Model
     {
         return $this->belongsToMany(Student::class, 'classroom_student');
     }
+    public static function booted()
+    {
+        static::addGlobalScope('activeSchoolYear', function ($query) {
+            $query->whereHas('school_year', function ($q) {
+                $q->where('is_active', true);
+            });
+        });
+    }
 }

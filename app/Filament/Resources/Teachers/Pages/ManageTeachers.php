@@ -20,8 +20,7 @@ class ManageTeachers extends ManageRecords
 
     protected function getHeaderActions(): array
     {
-        $resourceName = str_replace('Resource', '', class_basename(static::$resource));
-        $filename = strtolower($resourceName) . '_' . date('Y-m-d_h-i-s');
+        $filename = 'Ustadz-Ustadzah' . '_' . date('Y-m-d_h-i-s');
         return [
             CreateAction::make()
                 ->label('Tambah')

@@ -18,8 +18,7 @@ class ManageStudents extends ManageRecords
 
     protected function getHeaderActions(): array
     {
-        $resourceName = str_replace('Resource', '', class_basename(static::$resource));
-        $filename = strtolower($resourceName) . '_' . date('Y-m-d_h-i-s');
+        $filename = 'Santri' . '_' . date('Y-m-d_h-i-s');
         return [
             CreateAction::make()
                 ->label('Tambah')

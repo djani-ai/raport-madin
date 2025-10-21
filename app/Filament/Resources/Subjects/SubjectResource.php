@@ -32,29 +32,30 @@ class SubjectResource extends Resource
     {
         return $schema
             ->components([
-
                 Section::make('Nomor Urut Mata Pelajaran')
                     ->schema([
                         TextInput::make('no')
                             ->label('No Urut Mata Pelajaran')
                             ->numeric()
                             ->required()
-                            ->unique(ignorable: fn($record) => $record)
+                            ->uniqueValidationIgnoresRecordByDefault()
                             ->helperText('Akan digunakan untuk mengurutkan mata pelajaran pada saat input nilai siswa.'),
                     ]),
                 Section::make('Nama Mata Pelajaran')
                     ->schema([
                         TextInput::make('name')
                             ->label('Nama Mata Pelajaran')
+                            ->unique(ignorable: fn($record) => $record)
+                            ->validationMessages([
+                                'unique' => 'Nama mata pelajaran sudah terdaftar.',
+                            ])
                             ->required()
                             ->maxLength(255),
                         TextInput::make('arabic_name')
                             ->label('Nama Mata Pelajaran (Arab)')
                             ->required()
                             ->maxLength(255),
-                    ])
-                    ->secondary()
-                    ->compact()
+                    ]),
             ]);
     }
 

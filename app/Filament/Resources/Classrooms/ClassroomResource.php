@@ -61,27 +61,6 @@ class ClassroomResource extends Resource
                             })
                             ->required()
                     ])->columns(3)->columnSpanFull(),
-
-                // Fieldset::make('Data Jadwal')
-                //     ->schema([
-                //         Repeater::make('schedules')
-                //             ->relationship('schedules')
-                //             ->schema([
-                //                 Select::make('subject_id')
-                //                     ->relationship('subjects', 'name')
-                //                     ->hiddenLabel(),
-                //                 Select::make('teacher_id')
-                //                     ->relationship('teachers', 'name')
-                //                     ->required()
-                //                     ->hiddenLabel(),
-                //                 Hidden::make('school_year_id')
-                //                     ->label('Tahun Ajaran')
-                //                     ->default(function () {
-                //                         return SchoolYear::where('is_active', true)->first()->id;
-                //                     })
-                //                     ->required(),
-                //             ])->columnSpanFull()
-                //     ]),
             ]);
     }
 

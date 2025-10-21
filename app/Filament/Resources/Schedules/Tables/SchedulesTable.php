@@ -39,15 +39,7 @@ class SchedulesTable
                     ->trueIcon('heroicon-s-lock-closed')
                     ->falseIcon('heroicon-s-lock-open')
                     ->trueColor('info')
-                    ->falseColor('warning')
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->falseColor('warning'),
             ])
             ->filters([
                 SelectFilter::make('class')
@@ -55,7 +47,9 @@ class SchedulesTable
                     ->emptyRelationshipOptionLabel('Pilih Kelas')
                     ->selectablePlaceholder(false)
                     ->default('Pilih Kelas')
-            ], layout: FiltersLayout::AboveContent)->deferFilters(false)
+                    ->label('Filter Kelas'),
+            ], layout: FiltersLayout::AboveContent)->deferFilters(false)->hiddenFilterIndicators()
+
             ->recordActions([
                 ViewAction::make()
                     ->icon('heroicon-o-document-chart-bar')
@@ -91,7 +85,7 @@ class SchedulesTable
                 // Action::make('lock_value_status'),
 
             ])
-
+            ->headerActions([])
             ->toolbarActions([
                 // BulkActionGroup::make([
                 //     DeleteBulkAction::make(),
