@@ -2,18 +2,21 @@
 
 namespace App\Filament\Resources\Schedules\Tables;
 
-use App\Filament\Exports\ScheduleExporter;
-use App\Imports\ScheduleValuesImport;
+use App\Filament\Exports\SchedulesTemplateExport; // INI BARIS YANG DIPERBAIKI
+use App\Imports\ScheduleValuesImport; // Importer baru kita
 use App\Models\Schedule;
+use App\Models\Value;
 use EightyNine\ExcelImport\ExcelImportAction;
 use Filament\Actions\Action;
-use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Actions\ViewAction;
+use Filament\Resources\Pages\ListRecords; // Penting untuk mendapatkan query
+use Maatwebsite\Excel\Facades\Excel; // TAMBAHKAN INI
 
 class SchedulesTable
 {
@@ -47,49 +50,99 @@ class SchedulesTable
                     ->emptyRelationshipOptionLabel('Pilih Kelas')
                     ->selectablePlaceholder(false)
                     ->default('Pilih Kelas')
-                    ->label('Filter Kelas'),
-            ], layout: FiltersLayout::AboveContent)->deferFilters(false)->hiddenFilterIndicators()
+                    ->label('Kelas'),
+            ], layout: FiltersLayout::AboveContent)->deferFilters(false)
 
             ->recordActions([
                 ViewAction::make()
                     ->icon('heroicon-o-document-chart-bar')
                     ->label('Input Nilai')
                     ->color('success'),
-
-                // ExcelImportAction::make('importValues')
-                //     ->label('Import Nilai')
-                //     ->icon('heroicon-o-cloud-arrow-up')
-                //     ->color('primary')
-                //     ->use(ScheduleValuesImport::class)
-                //     ->sampleExcel(
-                //         sampleData: [
-                //             ['name' => 'John Doe', 'email' => 'john@doe.com', 'phone' => '123456789'],
-                //             ['name' => 'Jane Doe', 'email' => 'jane@doe.com', 'phone' => '987654321'],
-                //         ],
-                //         fileName: 'sample.xlsx',
-                //         exportClass: ScheduleExporter::class,
-                //         sampleButtonLabel: 'Download Sample',
-                //         customiseActionUsing: fn(Action $action) => $action->color('secondary')
-                //             ->icon('heroicon-m-clipboard')
-                //             ->requiresConfirmation()
-                //     )
-                //     ->after(function (Schedule $record) {
-                //         Notification::make()
-                //             ->title('Berhasil mengimpor nilai untuk jadwal ' . $record->subject->name)
-                //             ->success()
-                //             ->send();
-                //     }),
-
-
-
-                // Action::make('lock_value_status'),
-
             ])
-            ->headerActions([])
+            ->headerActions([
+                // AKSI 1: DOWNLOAD TEMPLATE MASSAL (DINAMIS) - DIRUBAH KE EXCEL
+                Action::make('download_master_template')
+                    ->label('Download Template Massal')
+                    ->icon('heroicon-o-document-arrow-down')
+                    ->color('secondary')
+                    ->action(function (ListRecords $livewire) {
+
+                        // Ambil query jadwal yang saat ini terfilter di tabel
+                        $schedulesQuery = $livewire->getFilteredTableQuery();
+
+                        // Eager load relasi yang dibutuhkan
+                        $schedules = $schedulesQuery->with(['classroom.students', 'subject'])->get();
+
+                        if ($schedules->isEmpty()) {
+                            Notification::make()
+                                ->title('Tidak Ada Data')
+                                ->warning()
+                                ->body('Silakan filter berdasarkan kelas terlebih dahulu untuk mengunduh template.')
+                                ->send();
+                            return;
+                        }
+
+                        // UBAH NAMA FILE KE .xlsx
+                        $filename = "template-massal-nilai-" . now()->format('Y-m-d') . ".xlsx";
+
+                        // --- LOGIKA BARU UNTUK EXCEL ---
+                        $data = [];
+                        // Header
+                        $data[] = ['school_year_id', 'classroom_id', 'schedule_id', 'student_id', 'kelas', 'mata_pelajaran', 'nama_siswa', 'nilai']; // TAMBAHKAN 'school_year_id'
+
+                        // Ambil semua nilai yang ada untuk jadwal & siswa ini
+                        $scheduleIds = $schedules->pluck('id');
+                        $existingValues = Value::whereIn('schedule_id', $scheduleIds)
+                            ->get()
+                            ->keyBy(fn($val) => $val->schedule_id . '-' . $val->student_id);
+
+                        foreach ($schedules as $schedule) {
+                            // Pastikan relasi ada
+                            if (!$schedule->classroom || !$schedule->subject) continue;
+
+                            $students = $schedule->classroom->students;
+                            if ($students->isEmpty()) continue; // Lewati jika kelas kosong
+
+                            foreach ($students as $student) {
+                                $key = $schedule->id . '-' . $student->id;
+                                $value = $existingValues->get($key)?->value ?? ''; // Ambil nilai jika ada
+
+                                // Tambahkan data sebagai array
+                                $data[] = [
+                                    'school_year_id' => $schedule->school_year_id,
+                                    'classroom_id'   => $schedule->classroom_id,
+                                    'schedule_id'    => $schedule->id,
+                                    'student_id'     => $student->id,
+                                    'kelas'          => $schedule->classroom->name,
+                                    'mata_pelajaran' => $schedule->subject->name,
+                                    'nama_siswa'     => $student->name,
+                                    'nilai'          => $value
+                                ];
+                            }
+                        }
+
+                        // Gunakan Maatwebsite/Excel untuk membuat dan mengunduh file
+                        return Excel::download(new SchedulesTemplateExport($data), $filename);
+                        // --- AKHIR LOGIKA BARU ---
+                    }),
+
+                // AKSI 2: IMPORT MASSAL (DENGAN LOGIKA BARU)
+                ExcelImportAction::make('import_massal')
+                    ->label('Import Massal Nilai')
+                    ->icon('heroicon-o-cloud-arrow-up')
+                    ->color('primary')
+                    // Gunakan kelas Importer baru yang akan kita buat
+                    ->use(ScheduleValuesImport::class)
+                    // KITA HAPUS ->withData() karena schedule_id sudah ada di file
+                    ->after(function () {
+                        Notification::make()
+                            ->title('Berhasil mengimpor nilai massal')
+                            ->success()
+                            ->send();
+                    }),
+            ])
             ->toolbarActions([
-                // BulkActionGroup::make([
-                //     DeleteBulkAction::make(),
-                // ]),
+                // ...
             ]);
     }
 }

@@ -73,9 +73,7 @@ class SchedulesRelationManager extends RelationManager
                                     })
                                     ->required(),
                             ])
-                            ->deletable(false)
-                            ->grid(2)
-                            ->columns(2)->columnSpanFull();
+                            ->columns(2);
                     }),
             ])
             ->recordActions([

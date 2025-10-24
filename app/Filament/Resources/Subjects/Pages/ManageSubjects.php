@@ -30,9 +30,7 @@ class ManageSubjects extends ManageRecords
                 ->modalDescription('Import data mata pelajaran dari file Excel')
                 ->slideOver()
                 ->use(SubjectImport::class)
-                ->validateUsing([
-                    'name' => ['required', 'unique:subjects,name'],
-                ])
+
                 ->sampleFileExcel(
                     url: url('file/TemplateMapel.xls'),
                     sampleButtonLabel: 'Download Template',

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreignId('schedule_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('value')->default('0')->nullable();
+            $table->unique(['school_year_id', 'schedule_id', 'student_id']);
             $table->timestamps();
         });
     }
