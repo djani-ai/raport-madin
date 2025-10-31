@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::disableForeignKeyConstraints();
@@ -17,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->enum('level', ["Awwaliyah", "Wustha", "Ulya"]);
-            $table->unsignedBigInteger('hr_teacher_id')->nullable();
-            $table->foreign('hr_teacher_id')->references('id')->on('Users')->nullOnDelete();
-            $table->unsignedBigInteger('school_year_id');
-            $table->foreign('school_year_id')->references('id')->on('school_years');
+            $table->foreignId('hr_teacher_id')->references('id')->on('Users')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('school_year_id')->references('id')->on('school_years')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
 
