@@ -15,10 +15,8 @@ return new class extends Migration
 
         Schema::create('presences', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('school_year_id');
-            $table->foreign('school_year_id')->references('id')->on('school_year');
-            $table->unsignedBigInteger('students_id');
-            $table->foreign('students_id')->references('id')->on('Students');
+            $table->foreignId('school_year_id')->references('id')->on('school_years')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('students_id')->references('id')->on('Students')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('sick')->nullable();
             $table->integer('permission')->nullable();
             $table->integer('absent')->nullable();
